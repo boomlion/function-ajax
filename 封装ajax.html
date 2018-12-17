@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function ajax(options) {
+      if (!options || typeof (options) !== 'object') {
+        return;
+      }
+      if (!options.url) {
+        return;
+      }
+      let type = options.type == 'post' ? 'post' : 'get';
+
+      let url = options.url;
+      let data = encode(options.data);
+      let xhr = new XMLHttpRequest();
+      let dataType = options.dataType;
+      if (type === 'get') {
+        xhr.open(type, url + data);
+        data = '';
+      } else {
+        xhr.open(type, url);
+      }
+      if (type === 'post') {
+        xhr.setRequestHerder("content-type", "application/x-www-form-urlencode:charset=utf-8");
+
+      }
+      xhr.send(data);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            if (dataType === 'json') {
+              return xhr.responseType('json');
+            } else if (dataType === 'xml') {
+              return xhr.responseType('xml');
+            } else {
+              return xhr.responseText;
+
+            }
+
+          }
+        }
+      }
+
+
+
+
+
+    }
+
+
+
+    function encode(data) {
+      if (data.length === 0) {
+        return;
+      }
+      let arr = [];
+      data.foreach((item, i) => {
+        arr.push(item + '=' + data[item]);
+      })
+      arr.join('&');
+      return arr;
+    }
+
+
+  </script>
+</body>
+
+</html>
